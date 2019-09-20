@@ -12,7 +12,7 @@ class UserProvider extends Component {
             currentUser: {
                 userData,
                 userSession: props.userSession,
-                userName: userData.userName
+                username: userData.username
             }
         }
     }

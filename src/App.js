@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import { appConfig } from './utils/constant';
 import { UserSession } from 'blockstack';
-import Navigation from './components/Landing/Navigation';
-import HeaderSection from './components/Landing/HeaderSection';
-import FeaturesSection from './components/Landing/FeaturesSection';
-import Footer from './components/Landing/Footer';
+import { Container, Button } from 'react-bootstrap';
 
 export default class App extends Component {
 
@@ -12,16 +9,41 @@ export default class App extends Component {
     userSession: new UserSession({ appConfig }),
   }
 
+  componentDidMount = async () => {
+    const { userSession } = this.state;
+    
+    if (userSession.isSignInPending()) {
+      userSession.handlePendingSignIn().then((userData) => {
+        window.history.replaceState({}, document.title, "/")
+        this.setState({ userData: userData})
+      });
+    }
+    
+  }
+  
+
+  handleSignIn = () => {
+    const { userSession } = this.state;
+    userSession.redirectToSignIn();
+  }
+
+  handleSignOut = () => {
+    const { userSession } = this.state; 
+    userSession.signUserOut(window.location.origin);
+  }
+
   render() {
     const { userSession } = this.state;
 
     return (
-      <div>
-        <Navigation />
-        <HeaderSection />
-        <FeaturesSection />
-        <Footer />
-      </div>
+      <Container>
+        {
+          userSession.isUserSignedIn() ?
+          <Button onClick={this.handleSignOut}>Sign Out</Button>
+          :
+          <Button onClick={this.handleSignIn}>Sign In</Button>
+        }
+      </Container>
     );
   }
 }
