@@ -1,46 +1,27 @@
 import React, { Component } from 'react';
-import Profile from './Profile.js';
-import Signin from './Signin.js';
-import {
-  UserSession,
-  AppConfig
-} from 'blockstack';
-
-const appConfig = new AppConfig()
-const userSession = new UserSession({ appConfig: appConfig })
+import { appConfig } from './utils/constant';
+import { UserSession } from 'blockstack';
+import Navigation from './components/Landing/Navigation';
+import HeaderSection from './components/Landing/HeaderSection';
+import FeaturesSection from './components/Landing/FeaturesSection';
+import Footer from './components/Landing/Footer';
 
 export default class App extends Component {
 
-
-  handleSignIn(e) {
-    e.preventDefault();
-    userSession.redirectToSignIn();
-  }
-
-  handleSignOut(e) {
-    e.preventDefault();
-    userSession.signUserOut(window.location.origin);
+  state = {
+    userSession: new UserSession({ appConfig }),
   }
 
   render() {
+    const { userSession } = this.state;
+
     return (
-      <div className="site-wrapper">
-        <div className="site-wrapper-inner">
-          { !userSession.isUserSignedIn() ?
-            <Signin userSession={userSession} handleSignIn={ this.handleSignIn } />
-            : <Profile userSession={userSession} handleSignOut={ this.handleSignOut } />
-          }
-        </div>
+      <div>
+        <Navigation />
+        <HeaderSection />
+        <FeaturesSection />
+        <Footer />
       </div>
     );
-  }
-
-  componentDidMount() {
-    if (userSession.isSignInPending()) {
-      userSession.handlePendingSignIn().then((userData) => {
-        window.history.replaceState({}, document.title, "/")
-        this.setState({ userData: userData})
-      });
-    }
   }
 }
