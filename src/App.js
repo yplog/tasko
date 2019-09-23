@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { appConfig } from './utils/constant';
 import { UserSession } from 'blockstack';
-import { Container, Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Routes from './pages/routes';
 import Landing from './pages/Landing';
 
@@ -23,7 +23,6 @@ export default class App extends Component {
     
   }
   
-
   handleSignIn = () => {
     const { userSession } = this.state;
     userSession.redirectToSignIn();

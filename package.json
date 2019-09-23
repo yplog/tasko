@@ -12,6 +12,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.24",
+    "@fortawesome/free-solid-svg-icons": "^5.11.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
     "blockstack": "^19.2.5",
     "lodash": "^4.17.15",
     "react": "^16.8.6",
