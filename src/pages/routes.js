@@ -28,7 +28,7 @@ class Routes extends Component {
             <UserProvider userSession={userSession}>
                 <Switch>
                     <Route exact path="/" render={() => <Redirect to={'/u/'}/>}/>
-                    <Route path="/u/" render={() => <User/>}/>
+                    <Route path="/u/" render={() => <User user={user} userSession={userSession}/>}/>
                 </Switch>
             </UserProvider>
         );

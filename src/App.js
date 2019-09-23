@@ -3,6 +3,7 @@ import { appConfig } from './utils/constant';
 import { UserSession } from 'blockstack';
 import { Container, Button } from 'react-bootstrap';
 import Routes from './pages/routes';
+import Landing from './pages/Landing';
 
 export default class App extends Component {
 
@@ -28,11 +29,6 @@ export default class App extends Component {
     userSession.redirectToSignIn();
   }
 
-  handleSignOut = () => {
-    const { userSession } = this.state; 
-    userSession.signUserOut(window.location.origin);
-  }
-
   render() {
     const { userSession } = this.state;
 
@@ -41,9 +37,8 @@ export default class App extends Component {
         {
           userSession.isUserSignedIn() ?
           <Routes userSession={userSession}/>
-          //<Button onClick={this.handleSignOut}>Sign Out</Button>
           :
-          <Button onClick={this.handleSignIn}>Sign In</Button>
+          <Landing handleSignIn={this.handleSignIn}/>
         }
       </Container>
     );

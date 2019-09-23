@@ -1,13 +1,25 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
+import Navigation from '../components/User/Navigation';
 
 class User extends Component {
 
+    state = {
+        user: this.props.user,
+        userSession: this.props.userSession
+    }
+
+    handleSignOut = () => {
+        const { userSession } = this.state; 
+        userSession.signUserOut(window.location.origin);
+    }
+
     render() {
         return(
-            <div>
+            <Container>
+                <Navigation handleSignOut={this.handleSignOut}/>
                 <h1>User Page</h1>
-            </div>
+            </Container>
         );
     }
 }

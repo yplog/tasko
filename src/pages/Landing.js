@@ -4,9 +4,9 @@ import HeaderSection from "../components/Landing/HeaderSection";
 import FeaturesSection from "../components/Landing/FeaturesSection";
 import Footer from "../components/Landing/Footer";
 
-const Landing = () => (
+const Landing = ({handleSignIn}) => (
     <>
-        <Navigation />
+        <Navigation handleSignIn={handleSignIn}/>
         <HeaderSection />
         <FeaturesSection />
         <Footer />
