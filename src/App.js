@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { appConfig } from './utils/constant';
 import { UserSession } from 'blockstack';
 import { Container, Button } from 'react-bootstrap';
+import Routes from './pages/routes';
 
 export default class App extends Component {
 
@@ -39,7 +40,8 @@ export default class App extends Component {
       <Container>
         {
           userSession.isUserSignedIn() ?
-          <Button onClick={this.handleSignOut}>Sign Out</Button>
+          <Routes userSession={userSession}/>
+          //<Button onClick={this.handleSignOut}>Sign Out</Button>
           :
           <Button onClick={this.handleSignIn}>Sign In</Button>
         }
