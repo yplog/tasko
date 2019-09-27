@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import _ from 'lodash';
 import UserProvider from '../components/User/UserProvider';
-import User from '../pages/User';
+import User from './User/User';
+import Profile from './User/Profile';
 
 
 class Routes extends Component {
@@ -28,7 +29,8 @@ class Routes extends Component {
             <UserProvider userSession={userSession}>
                 <Switch>
                     <Route exact path="/" render={() => <Redirect to={'/u/'}/>}/>
-                    <Route path="/u/" render={() => <User user={user} userSession={userSession}/>}/>
+                    <Route exact path="/u/" render={() => <User user={user} userSession={userSession}/> } />
+                    <Route exact path="/u/profile/" render={() => <Profile user={user} userSession={userSession} /> } />
                 </Switch>
             </UserProvider>
         );
