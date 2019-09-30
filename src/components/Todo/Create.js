@@ -12,6 +12,7 @@ class Create extends Component {
     state = {
         user: this.props.user,
         userSession: this.props.userSession,
+        todos: [],
         todo: '',
         alert: false
     }
@@ -20,9 +21,26 @@ class Create extends Component {
         userSession: PropTypes.object.isRequired
     }
 
+    componentDidMount() {
+        this.loadTODOS();
+    }
+
+    loadTODOS = async () => {
+        const { userSession } = this.state;
+        const options = { decrypt: false };
+
+        const result = await userSession.getFile(TODO_FILENAME, options);
+
+        if (result) {
+            return this.setState({ todos: JSON.parse(result) });
+        }
+
+        return null;
+    }
+
     onCreateTODO = async (todo) => {
         const options = { encrypt: false };
-        const { history, userSession, User } = this.props;
+        const { history, userSession, user, todos } = this.state;
         const id = generateUUID();
         const active = true;
 
@@ -33,7 +51,8 @@ class Create extends Component {
         };
 
         try {
-            await userSession.putFile(TODO_FILENAME, JSON.stringify(params), options);
+            await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos, params]), options);
+            todos.push(params);
         } catch (error) {
             console.log(error);
         }
@@ -51,12 +70,9 @@ class Create extends Component {
         if (this.state.todo) {
             const { todo } = this.state;
             this.onCreateTODO(todo);
-            
         }
         else
             this.setState({ alert: true });
-
-        console.log(this.state.userSession);
     }
 
     render() {
