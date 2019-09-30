@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { TODO_FILENAME } from '../../utils/constant';
+import generateUUID from '../../utils/generateUUID';
 
 
 class Create extends Component {
@@ -13,23 +16,47 @@ class Create extends Component {
         alert: false
     }
 
+    static propTypes = {
+        userSession: PropTypes.object.isRequired
+    }
+
+    onCreateTODO = async (todo) => {
+        const options = { encrypt: false };
+        const { history, userSession, User } = this.props;
+        const id = generateUUID();
+        const active = true;
+
+        const params = {
+            id,
+            todo,
+            active
+        };
+
+        try {
+            await userSession.putFile(TODO_FILENAME, JSON.stringify(params), options);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     onChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
-
-        console.log(this.state.todo);
     }
 
     onSubmit = (e) => {
         e.preventDefault();
 
         if (this.state.todo) {
-            console.log(this.state.todo);
-            this.setState({ todo: '' });
+            const { todo } = this.state;
+            this.onCreateTODO(todo);
+            
         }
         else
             this.setState({ alert: true });
+
+        console.log(this.state.userSession);
     }
 
     render() {

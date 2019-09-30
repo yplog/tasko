@@ -21,10 +21,10 @@ class User extends Component {
 
         return(
             <Container>
-                <Navigation handleSignOut={this.handleSignOut}/>
-                <Create />
+                <Navigation handleSignOut={this.handleSignOut} />
+                <Create userSession={userSession} user={user} />
                 <hr />
-                <List />
+                <List userSession={userSession} user={user} />
             </Container>
         );
     }
