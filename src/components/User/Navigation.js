@@ -12,7 +12,7 @@ const Navigation = ({handleSignOut}) => (
             <Nav>
                 <DropdownButton className="mr-2" variant="info" id="dropdown-basic-button" title="Settings">
                     <Dropdown.Item href="/u/profile/"><FontAwesomeIcon icon={faUser}/> Profile</Dropdown.Item>
-                    <Dropdown.Item href="#"><FontAwesomeIcon icon={faArchive}/> Archive</Dropdown.Item>
+                    <Dropdown.Item href="/u/archive/"><FontAwesomeIcon icon={faArchive}/> Archive</Dropdown.Item>
                     <Dropdown.Item href="#"><FontAwesomeIcon icon={faBook}/> Docs</Dropdown.Item>
                     <Dropdown.Item href="#"><FontAwesomeIcon icon={faHeart}/> Support</Dropdown.Item>
                 </DropdownButton>

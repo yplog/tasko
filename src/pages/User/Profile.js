@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Button, Row, Col } from 'react-bootstrap';
 import Navigation from '../../components/User/Navigation';
 import Header from '../../components/User/Header';
 
@@ -15,6 +15,8 @@ class User extends Component {
         userSession.signUserOut(window.location.origin);
     }
 
+    // TODO: Delete todos file function!
+
     render() {
         const { user, userSession } = this.state;
 
@@ -22,6 +24,12 @@ class User extends Component {
             <Container>
                 <Navigation handleSignOut={this.handleSignOut}/>
                 <Header user={user} userSession={userSession} />
+                <hr />
+                <Row className="mt-3">
+                    <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
+                        <Button variant="danger" onClick={this.deleteTodos}>Delete Todos</Button>
+                    </Col>
+                </Row>
             </Container>
         );
     }
