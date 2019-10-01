@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import Navigation from '../../components/User/Navigation';
 import Create from '../../components/Todo/Create';
-import List from '../../components/Todo/List';
 
 class User extends Component {
 
@@ -23,8 +22,6 @@ class User extends Component {
             <Container>
                 <Navigation handleSignOut={this.handleSignOut} />
                 <Create userSession={userSession} user={user} />
-                <hr />
-                <List userSession={userSession} user={user} />
             </Container>
         );
     }

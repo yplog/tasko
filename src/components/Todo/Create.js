@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import { Row, Col, InputGroup, FormControl, Button, Alert } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Loader from 'react-loader-spinner';
 import { TODO_FILENAME } from '../../utils/constant';
 import generateUUID from '../../utils/generateUUID';
+import List from './List';
 
 
 class Create extends Component {
@@ -14,7 +16,8 @@ class Create extends Component {
         userSession: this.props.userSession,
         todos: [],
         todo: '',
-        alert: false
+        alert: false,
+        loader: true
     }
 
     static propTypes = {
@@ -32,13 +35,17 @@ class Create extends Component {
         const result = await userSession.getFile(TODO_FILENAME, options);
 
         if (result) {
-            return this.setState({ todos: JSON.parse(result) });
+            this.setState({ 
+                todos: JSON.parse(result),
+                loader: false 
+            });
         }
 
         return null;
     }
 
     onCreateTODO = async (todo) => {
+        this.setState({ loader: true });
         const options = { encrypt: false };
         const { history, userSession, user, todos } = this.state;
         const id = generateUUID();
@@ -52,7 +59,7 @@ class Create extends Component {
 
         try {
             await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos, params]), options);
-            todos.push(params);
+            this.loadTODOS()
         } catch (error) {
             console.log(error);
         }
@@ -76,11 +83,12 @@ class Create extends Component {
     }
 
     render() {
-        const { alert } = this.state;
+        const { alert, todos, loader } = this.state;
         
         return(
             <div>
                 <Row>
+                    {todos.length}
                     <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
                         <InputGroup className="mt-3">
                             <FormControl onChange={this.onChange} name="todo" value={this.state.todo} placeholder="Add to-do..." />
@@ -106,6 +114,25 @@ class Create extends Component {
                     </Row>
                     : ''
                 }
+
+                <hr />
+                
+                {
+                    !loader ? 
+                    <List todos={todos} />
+                    : 
+                    <Row>
+                        <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
+                            <Loader 
+                            type="MutatingDots"
+                            color="#000000"
+                            height={100}
+                            width={100} />
+                        </Col>
+                    </Row>
+                    
+                }
+
             </div>
         );
     }
