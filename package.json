@@ -1,6 +1,6 @@
 {
-  "name": "Tasko",
-  "version": "0.0.0",
+  "name": "tasko",
+  "version": "0.1.0",
   "description": "Tasko to-do application for Blockstack",
   "repository": {
     "type": "git",
