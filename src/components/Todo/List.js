@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
 import { TODO_FILENAME } from '../../utils/constant';
 
 class List extends Component {
@@ -52,8 +52,6 @@ class List extends Component {
         }
     }
 
-    // TODO: Update => Update todo
-
     render() {
         const { todos } = this.state;
         
@@ -71,7 +69,10 @@ class List extends Component {
                                     </InputGroup.Prepend>
                                     <FormControl value={t.todo} disabled />
                                     <InputGroup.Append>
-                                        <Button variant="outline-secondary" onClick={() => this.deleteTodo(t.id)}>
+                                        <Button variant="outline-warning">
+                                            <FontAwesomeIcon icon={faEdit}/>
+                                        </Button>
+                                        <Button variant="outline-danger" onClick={() => this.deleteTodo(t.id)}>
                                             <FontAwesomeIcon icon={faTrash}/>
                                         </Button>
                                     </InputGroup.Append>

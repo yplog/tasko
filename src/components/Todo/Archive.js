@@ -34,6 +34,30 @@ class Archive extends Component {
         return null;
     }
 
+    deleteArchive = async () => {
+        const { todos, userSession } = this.state;
+        const options = { encrypt: false };
+
+        for (let i = 0; i < todos.length; i++) {
+            const todo = todos[i];
+            if (!todo.active)
+                todos.splice(todos.indexOf(todo), 1);
+        }
+
+        this.setState({ todos: todos });
+
+        try {
+            if (todos.length > 0) {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos]), options);
+            } else {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([todos]), options);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     deleteTodo = async (id) => {
         const { todos, userSession } = this.state;
         const options = { encrypt: false };
@@ -61,7 +85,7 @@ class Archive extends Component {
         return(
             <div>
                 <Row>
-                    <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
+                    <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }} className="mt-3">
                         <Button variant="danger" onClick={this.deleteArchive}>Delete Archive</Button>
                     </Col>
                 </Row>
@@ -77,7 +101,7 @@ class Archive extends Component {
                                     <InputGroup className="mt-3" key={t.id}>
                                         <FormControl value={t.todo} disabled />
                                         <InputGroup.Append>
-                                            <Button variant="outline-secondary" onClick={() => this.deleteTodo(t.id)}>
+                                            <Button variant="outline-danger" onClick={() => this.deleteTodo(t.id)}>
                                                 <FontAwesomeIcon icon={faTrash}/>
                                             </Button>
                                         </InputGroup.Append>
