@@ -2,16 +2,38 @@ import React, { Component } from 'react';
 import { Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { TODO_FILENAME } from '../../utils/constant';
+import { async } from 'q';
 
 class List extends Component {
 
     state = {
-        todos: this.props.todos
+        todos: this.props.todos,
+        userSession: this.props.userSession
     }
 
     // TODO: Checkbox is checked => Archive
 
-    // TODO: Button delete => Delete todo
+    deleteTodo = async (id) => {
+        const { todos, userSession } = this.state;
+        const options = { encrypt: false };
+        const todo = todos.find(todo => todo.id === id);
+        
+        todos.splice(todos.indexOf(todo), 1);
+
+        this.setState({ todos: todos });
+
+        try {
+            if (todos.length > 0) {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos]), options);
+            } else {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([todos]), options);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     // TODO: Update => Update todo
 
@@ -20,6 +42,7 @@ class List extends Component {
         
         return(
             <Row>
+                {todos.length}
                 {
                     todos.length ?
                     <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
@@ -32,7 +55,9 @@ class List extends Component {
                                     </InputGroup.Prepend>
                                     <FormControl value={t.todo} disabled />
                                     <InputGroup.Append>
-                                        <Button variant="outline-secondary"><FontAwesomeIcon icon={faTrash}/></Button>
+                                        <Button variant="outline-secondary" onClick={() => this.deleteTodo(t.id)}>
+                                            <FontAwesomeIcon icon={faTrash}/>
+                                        </Button>
                                     </InputGroup.Append>
                                 </InputGroup>
                                 : ''

@@ -86,7 +86,7 @@ class Create extends Component {
     }
 
     render() {
-        const { alert, todos, loader } = this.state;
+        const { alert, todos, loader, userSession } = this.state;
         
         return(
             <div>
@@ -121,7 +121,7 @@ class Create extends Component {
                 
                 {
                     !loader ? 
-                    <List todos={todos} />
+                    <List todos={todos} userSession={userSession}/>
                     : 
                     <Row>
                         <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
