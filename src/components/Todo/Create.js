@@ -45,7 +45,7 @@ class Create extends Component {
     onCreateTODO = async (todo) => {
         this.setState({ loader: true });
         const options = { encrypt: false };
-        const { userSession, user, todos } = this.state;
+        const { userSession, todos } = this.state;
         const id = generateUUID();
         const active = true;
 
