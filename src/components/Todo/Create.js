@@ -91,7 +91,6 @@ class Create extends Component {
         return(
             <div>
                 <Row>
-                    {todos.length}
                     <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
                         <InputGroup className="mt-3">
                             <FormControl onChange={this.onChange} name="todo" value={this.state.todo} placeholder="Add to-do..." />

@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class List extends Component {
 
     state = {
         todos: this.props.todos
     }
+
+    // TODO: Checkbox is checked => Archive
+
+    // TODO: Button delete => Delete todo
+
+    // TODO: Update => Update todo
 
     render() {
         const { todos } = this.state;
@@ -20,9 +28,12 @@ class List extends Component {
                                 t.active ?
                                 <InputGroup className="mt-3" key={t.id}>
                                     <InputGroup.Prepend>
-                                        <InputGroup.Checkbox aria-label="Checkbox for following text input" />
+                                        <InputGroup.Checkbox />
                                     </InputGroup.Prepend>
-                                    <FormControl disabled aria-label="Text input with checkbox" value={t.todo} />
+                                    <FormControl value={t.todo} disabled />
+                                    <InputGroup.Append>
+                                        <Button variant="outline-secondary"><FontAwesomeIcon icon={faTrash}/></Button>
+                                    </InputGroup.Append>
                                 </InputGroup>
                                 : ''
                             )
