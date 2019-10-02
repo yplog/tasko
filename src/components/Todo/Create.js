@@ -40,14 +40,12 @@ class Create extends Component {
                 loader: false 
             });
         }
-
-        return null;
     }
 
     onCreateTODO = async (todo) => {
         this.setState({ loader: true });
         const options = { encrypt: false };
-        const { history, userSession, user, todos } = this.state;
+        const { userSession, user, todos } = this.state;
         const id = generateUUID();
         const active = true;
 
@@ -58,8 +56,13 @@ class Create extends Component {
         };
 
         try {
-            await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos, params]), options);
-            this.loadTODOS()
+            if (todos.length > 0) {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos, params]), options);
+            } else {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([params]), options);
+            }
+            this.setState({ todo: '' });
+            this.loadTODOS();
         } catch (error) {
             console.log(error);
         }
