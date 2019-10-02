@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { TODO_FILENAME } from '../../utils/constant';
 import Loader from 'react-loader-spinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 
 class Archive extends Component {
 
@@ -32,6 +34,27 @@ class Archive extends Component {
         return null;
     }
 
+    deleteTodo = async (id) => {
+        const { todos, userSession } = this.state;
+        const options = { encrypt: false };
+        const todo = todos.find(todo => todo.id === id);
+        
+        todos.splice(todos.indexOf(todo), 1);
+
+        this.setState({ todos: todos });
+
+        try {
+            if (todos.length > 0) {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos]), options);
+            } else {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([todos]), options);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     render() {
         const { todos, loader } = this.state;
         
@@ -52,10 +75,12 @@ class Archive extends Component {
                                 todos.map((t) => 
                                     !t.active ?
                                     <InputGroup className="mt-3" key={t.id}>
-                                        <InputGroup.Prepend>
-                                            <InputGroup.Checkbox aria-label="Checkbox for following text input" />
-                                        </InputGroup.Prepend>
-                                        <FormControl disabled aria-label="Text input with checkbox" value={t.todo} />
+                                        <FormControl value={t.todo} disabled />
+                                        <InputGroup.Append>
+                                            <Button variant="outline-secondary" onClick={() => this.deleteTodo(t.id)}>
+                                                <FontAwesomeIcon icon={faTrash}/>
+                                            </Button>
+                                        </InputGroup.Append>
                                     </InputGroup>
                                     : ''
                                 )

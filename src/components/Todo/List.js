@@ -3,7 +3,6 @@ import { Row, Col, InputGroup, FormControl, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { TODO_FILENAME } from '../../utils/constant';
-import { async } from 'q';
 
 class List extends Component {
 
@@ -12,7 +11,25 @@ class List extends Component {
         userSession: this.props.userSession
     }
 
-    // TODO: Checkbox is checked => Archive
+    checkedTodo = async (id) => {
+        const { todos, userSession } = this.state;
+        const options = { encrypt: false };
+        const todo = todos.find(todo => todo.id === id);
+        todo.active = false;
+
+        this.setState({ todos: todos });
+
+        try {
+            if (todos.length > 0) {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([...todos]), options);
+            } else {
+                await userSession.putFile(TODO_FILENAME, JSON.stringify([todos]), options);
+            }
+            
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     deleteTodo = async (id) => {
         const { todos, userSession } = this.state;
@@ -42,7 +59,6 @@ class List extends Component {
         
         return(
             <Row>
-                {todos.length}
                 {
                     todos.length ?
                     <Col xs={{ span: 3, offset: 4 }} md={{ span: 6, offset: 3 }}>
@@ -51,7 +67,7 @@ class List extends Component {
                                 t.active ?
                                 <InputGroup className="mt-3" key={t.id}>
                                     <InputGroup.Prepend>
-                                        <InputGroup.Checkbox />
+                                        <InputGroup.Checkbox onClick={() => this.checkedTodo(t.id)} />
                                     </InputGroup.Prepend>
                                     <FormControl value={t.todo} disabled />
                                     <InputGroup.Append>
