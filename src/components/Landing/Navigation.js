@@ -9,7 +9,7 @@ const Navigation = ({handleSignIn}) => (
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-                <Nav.Link href="#">
+                <Nav.Link href="/support/">
                     <FontAwesomeIcon icon={faHeart} /> Support
                 </Nav.Link>
             </Nav>
