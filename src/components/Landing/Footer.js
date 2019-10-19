@@ -6,7 +6,7 @@ import { faGithubAlt } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => (
     <Navbar bg="dark" variant="dark">
-        <Navbar.Brand>Tasko</Navbar.Brand>
+        <Navbar.Brand>Tasko v:0.1</Navbar.Brand>
         <Nav className="mr-auto">
             <Nav.Link href="https://blockstack.org/" target="_blank">
                 <FontAwesomeIcon icon={faBolt} /> Blockstack
