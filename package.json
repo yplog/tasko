@@ -48,6 +48,7 @@
   },
   "devDependencies": {
     "bootstrap": "^5.0.0",
-    "react-test-renderer": "^16.8.6"
+    "react-test-renderer": "^16.8.6",
+    "qs": ">=6.14.1"
   }
 }
